@@ -1,0 +1,350 @@
+local DiscordLib =
+    loadstring(game:HttpGet "https://raw.githubusercontent.com/bloodball/-back-ups-for-libs/main/discord")()
+
+local plr = game.Players.LocalPlayer
+
+local char = plr.Character
+
+local hum = char.Humanoid
+
+local ows = hum.WalkSpeed
+local ojp = hum.JumpPower
+local ograv = workspace.Gravity
+local obrgtns = game:GetService("Lighting").Brightness
+
+local win = DiscordLib:Window("Discord")
+
+local iserv = win:Server("info", "")
+
+local info = iserv:Channel("info")
+
+info:Label("It.. you.. click things.. and type them in.. are you dumb?")
+info:Label("Anyway, if you get your paws on this, have fun.")
+info:Label("Not sure why, but people say using Libs are 'lazy..'")
+info:Label("Tell that to the devs of Bark, that LT2 GUI,")
+info:Label("They've used this same exact one.")
+
+info:Seperator()
+
+info:Label("Lib by dawid#7205, scripts by yours truly, JayFancy#2205.")
+
+local playerServ = win:Server("Player", "")
+
+local mvmt = playerServ:Channel("Movement")
+
+local ws = 
+    mvmt:Textbox(
+    "Set your walk speed",
+    "Type here...",
+    true,
+    function(t)
+        hum.WalkSpeed = t
+    end
+)
+
+local reset = 
+    mvmt:Button(
+    "Reset",
+    function()
+        ws:Change(ows)
+    end
+)
+
+mvmt:Seperator()
+
+local jp = 
+    mvmt:Textbox(
+    "Set your jump power",
+    "Type here...",
+    true,
+    function(t)
+        hum.JumpPower = t
+    end
+)
+
+local reset = 
+    mvmt:Button(
+    "Reset",
+    function()
+        jp:Change(ojp)
+    end
+)
+
+local world = playerServ:Channel("World")
+
+local grav = 
+    world:Slider(
+    "Set the client-sided gravity",
+    -100,
+    ograv*20,
+    ograv,
+    function(t)
+        workspace.Gravity = t
+    end
+)
+
+local reset = 
+    world:Button(
+    "Reset",
+    function()
+        grav:Change(ograv)
+    end
+)
+
+world:Seperator()
+
+local brgtns = 
+    world:Slider(
+    "Set the client-sided lighting",
+    0,
+    obrgtns*5,
+    obrgtns,
+    function(t)
+        game:GetService("Lighting").Brightness = t
+    end
+)
+
+local reset = 
+    world:Button(
+    "Reset",
+    function()
+        brgtns:Change(obrgtns)
+    end
+)
+
+local bserv = win:Server("Blockate", "")
+
+local visuals = bserv:Channel("Visuals")
+
+visuals:Label("Shows you stuff like signs with colors.")
+
+visuals:Seperator()
+
+visuals:Button(
+    "ESP",
+    function()
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/JayFancyScripts/scripts/main/Blockate%20ESP"))()
+    end
+)
+
+local tools = bserv:Channel("Tools")
+
+local bl = "[blank]"
+
+local drop =
+    tools:Dropdown(
+    "What to bring",
+    {"geargiver", "statgiver","teamer"},
+    function(bool)
+        bl = bool
+    end
+)
+
+local tping = tools:Button(
+    "Bring all",
+    function()
+        if not workspace:FindFirstChild("Blocks") then return end
+        local pppppppp = char.HumanoidRootPart.CFrame
+        for i,v in pairs(workspace.Blocks:GetDescendants()) do
+            if v.Name == (bl) then
+                local p = v.Parent.CFrame
+                local k
+                k = v.Parent.CanCollide
+                v.Parent.CanCollide = false
+                v.Parent.CFrame = game.Players.LocalPlayer.Character:FindFirstChild('HumanoidRootPart').CFrame
+                wait()
+                v.Parent.CFrame = game.Players.LocalPlayer.Character:FindFirstChild('HumanoidRootPart').CFrame + Vector3.new(0,.01,0)
+                wait()
+                v.Parent.CanCollide = k
+                v.Parent.CFrame = p
+            end
+        end
+        char.HumanoidRootPart.CFrame = pppppppp 
+    end
+)
+
+tools:Label("No mess!")
+
+tools:Seperator()
+
+tools:Textbox(
+    "Player to TP to",
+    "Type username here...",
+    true,
+    function(t)
+        for _,v in pairs(game:GetService("Players"):GetChildren()) do
+            if string.lower(v.Name) == string.lower(t) then
+                char:FindFirstChild("HumanoidRootPart").CFrame = v.Character:FindFirstChild("HumanoidRootPart").CFrame       
+            end
+        end
+    end
+)
+
+local grief = bserv:Channel("Griefing")
+
+grief:Label("I know you're here for this.")
+
+local repeatblocks = false
+
+local rp = grief:Toggle(
+    "Repeat blocks",
+    false,
+    function(bool)
+        repeatblocks = bool
+    end
+)
+
+grief:Seperator()
+
+grief:Label("Doing this too much, you'll get kicked.")
+
+local pg = grief:Toggle(
+    "Paint grief",
+    false,
+    function(bool)
+        if game.Workspace:FindFirstChild("Blocks") then
+            local p = game.Workspace.Blocks:GetChildren()
+            local un = {}
+            while wait() do wait()
+                if bool == false then return end
+                local m = math.random(1,table.getn(p))
+                if not repeatblocks then if table.find(un,m) then repeat game:GetService('RunService').RenderStepped:Wait() m = math.random(1,table.getn(p)) until not table.find(un,m) end end
+                table.insert(un,m)
+                local r,g,b = math.random(0,255),math.random(0,255),math.random(0,255)
+                game:GetService("ReplicatedStorage").Sockets.Edit.Paint:FireServer({{p[m],p[m],{["Reflectance"] = 0,["CanCollide"] = false,["Color"] = Color3.fromRGB(r,g,b),["LightColor"] = Color3.new(r,g,b),["Transparency"] = 0,["Light"] = 0,["Material"] = math.random(1,10),["Shape"] = 5,["Size"] = 1},1,{["Color"] = true,["Material"] = true}}})
+            end
+        end
+    end
+)
+
+grief:Seperator()
+
+grief:Label("For the 'paint bucket' tool.")
+grief:Label("You need to be holding it.")
+
+local pg2 = grief:Toggle(
+    "Paint BUCKET grief",
+    false,
+    function(bool)
+        if game.Workspace:FindFirstChild("Blocks") then
+            local d = {}
+            game:GetService('RunService').RenderStepped:Connect(function()
+            if bool == true then
+            local Blocks_To_Paint = (workspace.Blocks:GetChildren())
+            local m = math.random(1,table.getn(Blocks_To_Paint))
+                if not repeatblocks then if table.find(d,m) then repeat game:GetService('RunService').RenderStepped:Wait() m = math.random(1,table.getn(Blocks_To_Paint)) until not table.find(d,m) end end
+            table.insert(d,m)
+            local r,g,b = math.random(0,255),math.random(0,255),math.random(0,255)
+            local pb = game:GetService("Players").LocalPlayer.Character:FindFirstChild('PaintBucket')
+        pb.Remotes.ServerControls:InvokeServer("PaintPart",{["Part"] = Blocks_To_Paint[m],["Color"] = Color3.fromRGB(r, g, b)})
+            end    
+        end)
+    end
+end
+)
+
+grief:Label("If it looks to not stop, it is, give it time.")
+
+grief:Seperator()
+
+grief:Label("Used when you have lethal tools.")
+grief:Label("Do this far from others, you'll get caught.")
+grief:Label("Using, for example, a Linked Sword,")
+grief:Label("people won't know how they're dying.")
+
+local cba = grief:Button(
+    "Client-bring all",
+    function()
+        for i,v in pairs(game:GetService("Players"):GetChildren()) do
+            v.Character:FindFirstChild("HumanoidRootPart").CFrame = char:FindFirstChild("HumanoidRootPart").CFrame
+        end
+    end
+)
+
+--[[ channel:Toggle(
+    "Auto-Farm",
+    false,
+    function(bool)
+        print(bool)
+    end
+)
+
+local sldrs = serv:Channel("Sliders")
+
+local sldr =
+    sldrs:Slider(
+    "Slide me!",
+    0,
+    1000,
+    400,
+    function(t)
+        print(t)
+    end
+)
+
+sldrs:Button(
+    "Change to 50",
+    function()
+        sldr:Change(50)
+    end
+)
+
+local drops = serv:Channel("Dropdowns")
+
+local drop =
+    drops:Dropdown(
+    "Pick me!",
+    {"Option 1", "Option 2", "Option 3", "Option 4", "Option 5"},
+    function(bool)
+        print(bool)
+    end
+)
+
+drops:Button(
+    "Clear",
+    function()
+        drop:Clear()
+    end
+)
+
+drops:Button(
+    "Add option",
+    function()
+        drop:Add("Option")
+    end
+)
+
+local clrs = serv:Channel("Colorpickers")
+
+clrs:Colorpicker(
+    "ESP Color",
+    Color3.fromRGB(255, 1, 1),
+    function(t)
+        print(t)
+    end
+)
+
+local textbs = serv:Channel("Textboxes")
+
+textbs:Textbox(
+    "Gun power",
+    "Type here!",
+    true,
+    function(t)
+        print(t)
+    end
+)
+
+local lbls = serv:Channel("Labels")
+
+lbls:Label("This is just a label.")
+
+local bnds = serv:Channel("Binds")
+
+bnds:Bind(
+    "Kill bind",
+    Enum.KeyCode.RightShift,
+    function()
+        print("Killed everyone!")
+    end
+) ]]--

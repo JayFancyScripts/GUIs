@@ -14,9 +14,9 @@ local obrgtns = game:GetService("Lighting").Brightness
 
 local win = DiscordLib:Window("Discord")
 
-local iserv = win:Server("info", "")
+local iserv = win:Server("Info", "")
 
-local info = iserv:Channel("info")
+local info = iserv:Channel("Info")
 
 info:Label("It.. you.. click things.. and type them in.. are you dumb?")
 info:Label("Anyway, if you get your paws on this, have fun.")
@@ -134,7 +134,7 @@ local bl = "[blank]"
 local drop =
     tools:Dropdown(
     "What to bring",
-    {"geargiver", "statgiver","teamer"},
+    {"geargiver", "statgiver","teamer","healer","cannon","damager","poisoner","tele","flyer"},
     function(bool)
         bl = bool
     end
@@ -163,6 +163,30 @@ local tping = tools:Button(
     end
 )
 
+local tping2 = tools:Button(
+    "Bring one",
+    function()
+        if not workspace:FindFirstChild("Blocks") then return end
+        local pppppppp = char.HumanoidRootPart.CFrame
+        for i,v in pairs(workspace.Blocks:GetDescendants()) do
+            if v.Name == (bl) then
+                local p = v.Parent.CFrame
+                local k
+                k = v.Parent.CanCollide
+                v.Parent.CanCollide = false
+                v.Parent.CFrame = game.Players.LocalPlayer.Character:FindFirstChild('HumanoidRootPart').CFrame
+                wait()
+                v.Parent.CFrame = game.Players.LocalPlayer.Character:FindFirstChild('HumanoidRootPart').CFrame + Vector3.new(0,.01,0)
+                wait()
+                v.Parent.CanCollide = k
+                v.Parent.CFrame = p
+                return
+            end
+        end
+        char.HumanoidRootPart.CFrame = pppppppp 
+    end
+)
+
 tools:Label("No mess!")
 
 tools:Seperator()
@@ -174,15 +198,95 @@ tools:Textbox(
     function(t)
         for _,v in pairs(game:GetService("Players"):GetChildren()) do
             if string.lower(v.Name) == string.lower(t) then
-                char:FindFirstChild("HumanoidRootPart").CFrame = v.Character:FindFirstChild("HumanoidRootPart").CFrame       
+                char:FindFirstChild("HumanoidRootPart").CFrame = v.Character:FindFirstChild("HumanoidRootPart").CFrame    
             end
         end
     end
 )
 
+tools:Seperator()
+
+tools:Button(
+    "View backups (without admin)",
+    function()
+        plr.PlayerGui.MainGUI.Backups.Visible = true
+    end
+)
+
+tools:Seperator()
+
+local k1 = false
+local k2 = false
+
+local mouse = plr:GetMouse()
+local uis = game:GetService("UserInputService")
+
+mouse.Button1Down:Connect(function()
+    k1 = true
+end)
+
+mouse.Button1Up:Connect(function()
+    k1 = false
+end)
+
+uis.InputBegan:Connect(function(input,gpe)
+    if input.KeyCode == Enum.KeyCode.LeftControl then
+        k2 = true
+    end
+end)
+
+uis.InputEnded:Connect(function(input,gpe)
+    if input.KeyCode == Enum.KeyCode.LeftControl then
+        k2 = false
+    end
+end)
+
+local bl = false
+
+tools:Toggle(
+    "LCtrl + Click TP",
+    false,
+    function(bool)
+       bl = bool
+    end
+)
+
+tools:Label("Do you want to tween TP?")
+
+local bl2 = false
+
+tools:Toggle(
+    "Tween TP",
+    false,
+    function(bool)
+        bl2 = bool
+    end
+)
+
+--char:FindFirstChild("HumanoidRootPart").Position = mouse.Hit.Position + Vector3.new(0,2,0)
+
+uis.InputBegan:Connect(function()
+    if bl == false then return end
+    if (k1 and k2) == true then
+        print("Commence!")
+        if bl2 == false then
+        char:FindFirstChild("HumanoidRootPart").Position = mouse.Hit.Position + Vector3.new(0,0,0)
+        else
+            char:FindFirstChild("HumanoidRootPart").Anchored = true
+        local t = game:GetService("TweenService"):Create(
+            char:FindFirstChild("HumanoidRootPart"),
+            TweenInfo.new(1, Enum.EasingStyle.Exponential, Enum.EasingDirection.Out),
+            {Position = mouse.Hit.Position + Vector3.new(0,3,0)})
+        t:Play()
+        t.Completed:Wait()
+            char:FindFirstChild("HumanoidRootPart").Anchored = false
+        end
+    end
+end)
+
 local grief = bserv:Channel("Griefing")
 
-grief:Label("I know you're here for this.")
+grief:Label("You need freebuild/builder/admin for this.")
 
 local repeatblocks = false
 
@@ -198,38 +302,65 @@ grief:Seperator()
 
 grief:Label("Doing this too much, you'll get kicked.")
 
+local bl
+local bl2
+local c = Color3.fromRGB(0,0,0)
+
 local pg = grief:Toggle(
     "Paint grief",
     false,
     function(bool)
-        if game.Workspace:FindFirstChild("Blocks") then
-            local p = game.Workspace.Blocks:GetChildren()
+        bl = bool
+        if workspace:FindFirstChild("Blocks") then
+            local p = workspace.Blocks:GetChildren()
             local un = {}
             while wait() do wait()
-                if bool == false then return end
+                if bl == false then return end
                 local m = math.random(1,table.getn(p))
                 if not repeatblocks then if table.find(un,m) then repeat game:GetService('RunService').RenderStepped:Wait() m = math.random(1,table.getn(p)) until not table.find(un,m) end end
                 table.insert(un,m)
-                local r,g,b = math.random(0,255),math.random(0,255),math.random(0,255)
-                game:GetService("ReplicatedStorage").Sockets.Edit.Paint:FireServer({{p[m],p[m],{["Reflectance"] = 0,["CanCollide"] = false,["Color"] = Color3.fromRGB(r,g,b),["LightColor"] = Color3.new(r,g,b),["Transparency"] = 0,["Light"] = 0,["Material"] = math.random(1,10),["Shape"] = 5,["Size"] = 1},1,{["Color"] = true,["Material"] = true}}})
+                local colors = Color3.fromRGB(math.random(0,255),math.random(0,255),math.random(0,255))
+                if bl2 == false then colors = Color3.fromRGB(math.random(0,255),math.random(0,255),math.random(0,255)) elseif bl2 == true then colors = c end
+                game:GetService("ReplicatedStorage").Sockets.Edit.Paint:FireServer({{p[m],p[m],{["Reflectance"] = 0,["CanCollide"] = false,["Color"] = colors,["LightColor"] = Color3.new(0,0,0),["Transparency"] = 0,["Light"] = 0,["Material"] = math.random(1,10),["Shape"] = 5,["Size"] = 1},1,{["Color"] = true,["Material"] = true}}})
             end
         end
     end
 )
+
+grief:Toggle(
+    "Use custom colors",
+    false,
+    function(bool)
+        bl2 = bool
+    end
+)
+
+grief:Colorpicker(
+    "Paint Color3",
+    Color3.fromRGB(255, 1, 1),
+    function(color)
+        c = color
+    end
+)
+
+grief:Label("If custom colors are off it's random colors")
 
 grief:Seperator()
 
 grief:Label("For the 'paint bucket' tool.")
 grief:Label("You need to be holding it.")
 
+local bl
+
 local pg2 = grief:Toggle(
     "Paint BUCKET grief",
     false,
     function(bool)
-        if game.Workspace:FindFirstChild("Blocks") then
+        bl = bool
+        if workspace:FindFirstChild("Blocks") then
             local d = {}
             game:GetService('RunService').RenderStepped:Connect(function()
-            if bool == true then
+            if bl == false then return end
             local Blocks_To_Paint = (workspace.Blocks:GetChildren())
             local m = math.random(1,table.getn(Blocks_To_Paint))
                 if not repeatblocks then if table.find(d,m) then repeat game:GetService('RunService').RenderStepped:Wait() m = math.random(1,table.getn(Blocks_To_Paint)) until not table.find(d,m) end end
@@ -237,13 +368,50 @@ local pg2 = grief:Toggle(
             local r,g,b = math.random(0,255),math.random(0,255),math.random(0,255)
             local pb = game:GetService("Players").LocalPlayer.Character:FindFirstChild('PaintBucket')
         pb.Remotes.ServerControls:InvokeServer("PaintPart",{["Part"] = Blocks_To_Paint[m],["Color"] = Color3.fromRGB(r, g, b)})
-            end    
         end)
     end
 end
 )
 
-grief:Label("If it looks to not stop, it is, give it time.")
+grief:Seperator()
+
+local bl
+
+local dg = grief:Toggle(
+    "Delete grief",
+    false,
+    function(bool)
+        bl = bool
+        if workspace:FindFirstChild("Blocks") then
+            local p = workspace.Blocks:GetChildren()
+            while wait() do wait()
+                if bl == false then return end
+                local m = math.random(1,table.getn(p))
+                game:GetService("ReplicatedStorage").Sockets.Edit.Delete:FireServer(p[m])
+            end
+        end
+    end
+)
+
+grief:Seperator()
+
+local fr = grief:Toggle(
+    "Epilepsy",
+    false,
+    function(bool)
+        local a = false
+        while wait(1) do
+            if bool == false then return end
+            if bool == true then
+                if a == false then
+                    game:GetService("ReplicatedStorage").Sockets.Command:InvokeServer("!filter brightness -1",workspace.Blocks.Block)
+                elseif a == true then
+                    game:GetService("ReplicatedStorage").Sockets.Command:InvokeServer("!filter brightness 1",workspace.Blocks.Block)
+                end
+            end
+        end
+    end
+)
 
 grief:Seperator()
 
@@ -260,6 +428,21 @@ local cba = grief:Button(
         end
     end
 )
+
+grief:Seperator()
+
+local tspam = grief:Button(
+    "Click here to load a template (admin)",
+    function(bool)
+        game:GetService("ReplicatedStorage").Sockets.World.LoadTemplate:FireServer("Plots")
+    end
+)
+
+grief:Label("It's not logged!")
+
+local mc = bserv:Channel("Misc")
+
+mc:Label("There is nothing here right now, sadly.")
 
 --[[ channel:Toggle(
     "Auto-Farm",

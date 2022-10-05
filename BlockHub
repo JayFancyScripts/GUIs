@@ -1,0 +1,536 @@
+local DiscordLib = (loadstring(game:HttpGet("https://raw.githubusercontent.com/bloodball/-back-ups-for-libs/main/discord")))();
+local l__Modules__1 = (game:GetService("ReplicatedStorage")).Modules;
+local u2 = require(l__Modules__1.Client.LocalCommands);
+u2.feedback("JayFancy#2205 is so fucking cute :>");
+wait(2);
+u2.feedback("loaded!");
+local _guiname = "BLOCKHUB";
+local plr = game.Players.LocalPlayer;
+local char = game.Players.LocalPlayer.Character;
+local hum = game.Players.LocalPlayer.Character.Humanoid;
+local pl;
+local ows = hum.WalkSpeed;
+local ojp = hum.JumpPower;
+local ograv = workspace.Gravity;
+local obrgtns = (game:GetService("Lighting")).Brightness;
+function define()
+	repeat
+		plr = game.Players.LocalPlayer;
+		char = game.Players.LocalPlayer.Character;
+		hum = game.Players.LocalPlayer.Character.Humanoid;
+		ows = hum.WalkSpeed;
+		ojp = hum.JumpPower;
+		ograv = workspace.Gravity;
+		obrgtns = (game:GetService("Lighting")).Brightness;
+		pl = (char:WaitForChild("HumanoidRootPart")):FindFirstChildOfClass("PointLight");
+		if not char.HumanoidRootPart:FindFirstChildOfClass("PointLight") then
+			pl = Instance.new("PointLight");
+			pl.Parent = char.HumanoidRootPart;
+			pl.Range = 50;
+			pl.Brightness = 1;
+			pl.Color = Color3.fromRGB(255, 255, 255);
+			pl.Name = math.random(-1000, 1000);
+			pl.Enabled = false;
+		end;
+	until plr == game.Players.LocalPlayer and char == game.Players.LocalPlayer.Character and hum == game.Players.LocalPlayer.Character.Humanoid and ows == hum.WalkSpeed and ojp == hum.JumpPower and ograv == workspace.Gravity and obrgtns == (game:GetService("Lighting")).Brightness and pl == char.HumanoidRootPart:FindFirstChildOfClass("PointLight");
+end;
+define();
+hum.HealthChanged:Connect(define);
+local win = DiscordLib:Window("BlockHub");
+local iserv = win:Server("Info", "");
+local info = iserv:Channel("Info");
+info:Label("It.. you.. click things.. and type them in.. are you dumb?");
+info:Label("Anyway, if you get your paws on this, have fun.");
+info:Label("Not sure why, but people say using libs are 'lazy..'");
+info:Label("Tell that to the devs of Bark, that LT2 GUI,");
+info:Label("They've used this same exact one.");
+info:Seperator();
+info:Label("Lib by dawid#7205, scripts by yours truly, JayFancy#2205.");
+local games = iserv:Channel("Games");
+games:Label("This GUI holds some pretty niche games, which are:");
+games:Label("Blockate, \n Catalog Heaven");
+local playerServ = win:Server("Player", "");
+local mvmt = playerServ:Channel("Movement");
+local ws = mvmt:Textbox("Set your walk speed", "Type here...", true, function(t)
+	hum.WalkSpeed = t;
+end);
+local reset = mvmt:Button("Reset", function()
+	ws:Change(ows);
+end);
+mvmt:Seperator();
+local jp = mvmt:Textbox("Set your jump power", "Type here...", true, function(t)
+	hum.JumpPower = t;
+end);
+local reset = mvmt:Button("Reset", function()
+	jp:Change(ojp);
+end);
+mvmt:Seperator();
+mvmt:Textbox("Player to TP to", "Type username here...", true, function(t)
+	for _, v in pairs((game:GetService("Players")):GetChildren()) do
+		define();
+		if string.lower(v.Name) == string.lower(t) then
+			(char:FindFirstChild("HumanoidRootPart")).CFrame = (v.Character:FindFirstChild("HumanoidRootPart")).CFrame;
+		end;
+	end;
+end);
+mvmt:Seperator();
+local k1 = false;
+local k2 = false;
+local mouse = plr:GetMouse();
+local uis = game:GetService("UserInputService");
+mouse.Button1Down:Connect(function()
+	k1 = true;
+end);
+mouse.Button1Up:Connect(function()
+	k1 = false;
+end);
+uis.InputBegan:Connect(function(input, gpe)
+	if input.KeyCode == Enum.KeyCode.LeftControl then
+		k2 = true;
+	end;
+end);
+uis.InputEnded:Connect(function(input, gpe)
+	if input.KeyCode == Enum.KeyCode.LeftControl then
+		k2 = false;
+	end;
+end);
+local bl = false;
+mvmt:Toggle("LCtrl + Click TP", false, function(bool)
+	bl = bool;
+end);
+mvmt:Label("Do you want to tween TP?");
+local bl2 = false;
+mvmt:Toggle("Tween TP", false, function(bool)
+	bl2 = bool;
+end);
+uis.InputBegan:Connect(function()
+	if bl == false then
+		return;
+	end;
+	if (k1 and k2) == true then
+		define();
+		print("Commence!");
+		if bl2 == false then
+			(char:FindFirstChild("HumanoidRootPart")).Position = mouse.Hit.Position + Vector3.new(0, 0, 0);
+		else
+			(char:FindFirstChild("HumanoidRootPart")).Anchored = true;
+			local t = (game:GetService("TweenService")):Create(char:FindFirstChild("HumanoidRootPart"), TweenInfo.new(1, Enum.EasingStyle.Exponential, Enum.EasingDirection.Out), {
+				Position = mouse.Hit.Position + Vector3.new(0, 3, 0)
+			});
+			t:Play();
+			t.Completed:Wait();
+			define();
+			(char:FindFirstChild("HumanoidRootPart")).Anchored = false;
+		end;
+	end;
+end);
+mvmt:Seperator();
+mvmt:Label("Used when you have lethal tools.");
+mvmt:Label("Do this far from others, you'll get caught.");
+mvmt:Label("Using, for example, a Linked Sword,");
+mvmt:Label("people won't know how they're dying.");
+local cba = mvmt:Button("Client-bring all", function()
+	for i, v in pairs((game:GetService("Players")):GetChildren()) do
+		define();
+		(v.Character:FindFirstChild("HumanoidRootPart")).CFrame = (char:FindFirstChild("HumanoidRootPart")).CFrame;
+	end;
+end);
+local world = playerServ:Channel("World");
+local grav = world:Slider("Set the client-sided gravity", ograv / 5, ograv * 20, ograv, function(t)
+	workspace.Gravity = t;
+end);
+local reset = world:Button("Reset", function()
+	grav:Change(ograv);
+end);
+world:Seperator();
+local brgtns = world:Slider("Set the client-sided lighting", 0, 50, obrgtns, function(t)
+	(game:GetService("Lighting")).Brightness = t;
+end);
+local reset = world:Button("Reset", function()
+	brgtns:Change(obrgtns);
+end);
+local plc = playerServ:Channel("Flashlight");
+plc:Label("This GUI comes with a free light!");
+plc:Label("(if you die then just re-enable it)");
+define();
+plc:Toggle("PointLight.Enabled", false, function(bool)
+	define();
+	pl.Enabled = bool;
+end);
+plc:Seperator();
+plc:Slider("PointLight.Range", 0, 500, pl.Range, function(t)
+	define();
+	pl.Range = t;
+end);
+plc:Slider("PointLight.Brightness", 0, 50, pl.Brightness, function(t)
+	define();
+	pl.Brightness = t;
+end);
+plc:Colorpicker("PointLight.Color", Color3.fromRGB(255, 255, 255), function(t)
+	define();
+	pl.Color = t;
+end);
+plc:Seperator();
+plc:Label("Comes with a lifetime warranty.");
+local bserv = win:Server("Blockate", "");
+local visuals = bserv:Channel("Visuals");
+visuals:Label("Shows you stuff like signs with colors.");
+visuals:Seperator();
+visuals:Button("Block Identifier", function()
+	(loadstring(game:HttpGet("https://raw.githubusercontent.com/JayFancyScripts/scripts/main/Blockate%20ESP")))();
+end);
+local tools = bserv:Channel("Tools");
+local bl = "[blank]";
+local drop = tools:Dropdown("What to bring", {
+	"geargiver",
+	"statgiver",
+	"teamer",
+	"healer",
+	"cannon",
+	"damager",
+	"poisoner",
+	"tele",
+	"flyer"
+}, function(bool)
+	bl = bool;
+end);
+local tping = tools:Button("Bring all", function()
+	if not workspace:FindFirstChild("Blocks") then
+		return;
+	end;
+	local pppppppp = char.HumanoidRootPart.CFrame;
+	for i, v in pairs(workspace.Blocks:GetDescendants()) do
+		define();
+		if v.Name == bl then
+			local p = v.Parent.CFrame;
+			local k;
+			k = v.Parent.CanCollide;
+			v.Parent.CanCollide = false;
+			v.Parent.CFrame = (char:FindFirstChild("HumanoidRootPart")).CFrame;
+			wait();
+			v.Parent.CFrame = (char:FindFirstChild("HumanoidRootPart")).CFrame + Vector3.new(0, 0, 0);
+			wait();
+			v.Parent.CanCollide = k;
+			v.Parent.CFrame = p;
+		end;
+	end;
+	char.HumanoidRootPart.CFrame = pppppppp;
+end);
+local tping2 = tools:Button("Bring one", function()
+	if not workspace:FindFirstChild("Blocks") then
+		return;
+	end;
+	local pppppppp = char.HumanoidRootPart.CFrame;
+	for i, v in pairs(workspace.Blocks:GetDescendants()) do
+		define();
+		if v.Name == bl then
+			local p = v.Parent.CFrame;
+			local k;
+			k = v.Parent.CanCollide;
+			v.Parent.CanCollide = false;
+			v.Parent.CFrame = (char:FindFirstChild("HumanoidRootPart")).CFrame;
+			wait();
+			v.Parent.CFrame = (char:FindFirstChild("HumanoidRootPart")).CFrame + Vector3.new(0, 0, 0);
+			wait();
+			v.Parent.CanCollide = k;
+			v.Parent.CFrame = p;
+			return;
+		end;
+	end;
+	char.HumanoidRootPart.CFrame = pppppppp;
+end);
+tools:Label("No mess!");
+tools:Seperator();
+tools:Button("View backups (without admin)", function()
+	plr.PlayerGui.MainGUI.Backups.Visible = true;
+end);
+local grief = bserv:Channel("Griefing");
+grief:Label("You need freebuild/builder/admin for this.");
+local repeatblocks = false;
+local rp = grief:Toggle("Repeat blocks", false, function(bool)
+	repeatblocks = bool;
+end);
+grief:Seperator();
+grief:Label("Doing this too much, you'll get kicked.");
+local bl;
+local bl2;
+local c = Color3.fromRGB(0, 0, 0);
+local pg = grief:Toggle("Paint grief", false, function(bool)
+	bl = bool;
+	if workspace:FindFirstChild("Blocks") then
+		local p = workspace.Blocks:GetChildren();
+		local un = {};
+		while wait() do
+			wait();
+			if bl == false then
+				return;
+			end;
+			local m = math.random(1, table.getn(p));
+			if not repeatblocks then
+				if table.find(un, m) then
+					repeat
+						(game:GetService("RunService")).RenderStepped:Wait();
+						m = math.random(1, table.getn(p));
+					until not table.find(un, m);
+				end;
+			end;
+			table.insert(un, m);
+			local colors = Color3.fromRGB(math.random(0, 255), math.random(0, 255), math.random(0, 255));
+			if bl2 == false then
+				colors = Color3.fromRGB(math.random(0, 255), math.random(0, 255), math.random(0, 255));
+			elseif bl2 == true then
+				colors = c;
+			end;
+			(game:GetService("ReplicatedStorage")).Sockets.Edit.Paint:FireServer({
+				{
+					p[m],
+					p[m],
+					{
+						Reflectance = 0,
+						CanCollide = false,
+						Color = colors,
+						LightColor = Color3.new(0, 0, 0),
+						Transparency = 0,
+						Light = 0,
+						Material = math.random(1, 10),
+						Shape = 5,
+						Size = 1
+					},
+					1,
+					{
+						Color = true,
+						Material = true
+					}
+				}
+			});
+		end;
+	end;
+end);
+grief:Toggle("Use custom colors", false, function(bool)
+	bl2 = bool;
+end);
+grief:Colorpicker("Paint Color3", Color3.fromRGB(255, 1, 1), function(color)
+	c = color;
+end);
+grief:Label("If custom colors are off it's random colors");
+grief:Seperator();
+grief:Label("For the 'paint bucket' tool.");
+grief:Label("You need to be holding it.");
+local bl;
+local pg2 = grief:Toggle("Paint bucket grief", false, function(bool)
+	bl = bool;
+	if workspace:FindFirstChild("Blocks") then
+		local d = {};
+		(game:GetService("RunService")).RenderStepped:Connect(function()
+			define();
+			if bl == false then
+				return;
+			end;
+			local Blocks_To_Paint = workspace.Blocks:GetChildren();
+			local m = math.random(1, table.getn(Blocks_To_Paint));
+			if not repeatblocks then
+				if table.find(d, m) then
+					repeat
+						(game:GetService("RunService")).RenderStepped:Wait();
+						m = math.random(1, table.getn(Blocks_To_Paint));
+					until not table.find(d, m);
+				end;
+			end;
+			table.insert(d, m);
+			local rgb = Color3.fromRGB(math.random(0, 255), math.random(0, 255), math.random(0, 255));
+			local args = {
+				[1] = "PaintPart",
+				[2] = {
+					Part = Blocks_To_Paint[m],
+					Color = rgb
+				}
+			};
+			local pb = (game:GetService("Players")).LocalPlayer.Character:FindFirstChild("PaintBucket");
+			pb.Remotes.ServerControls:InvokeServer(unpack(args));
+		end);
+	end;
+end);
+local bl;
+local pg22 = grief:Toggle("Paint bucket grief V2", false, function(bool)
+	bl = bool;
+	if workspace:FindFirstChild("Blocks") then
+		for i, v in pairs(workspace.Blocks:GetChildren()) do
+			define();
+			if bl == false then
+				return;
+			end;
+			task.spawn(function()
+				local rgb = Color3.fromRGB(math.random(0, 255), math.random(0, 255), math.random(0, 255));
+				local args = {
+					[1] = "PaintPart",
+					[2] = {
+						Part = v,
+						Color = rgb
+					}
+				};
+				local pb = (game:GetService("Players")).LocalPlayer.Character:FindFirstChild("PaintBucket");
+				pb.Remotes.ServerControls:InvokeServer(unpack(args));
+			end);
+		end;
+	end;
+end);
+grief:Seperator();
+local bl;
+local dg = grief:Toggle("Delete grief", false, function(bool)
+	bl = bool;
+	if workspace:FindFirstChild("Blocks") then
+		local p = workspace.Blocks:GetChildren();
+		while wait() do
+			wait();
+			if bl == false then
+				return;
+			end;
+			local m = math.random(1, table.getn(p));
+			(game:GetService("ReplicatedStorage")).Sockets.Edit.Delete:FireServer(p[m]);
+		end;
+	end;
+end);
+grief:Seperator();
+local bl;
+local fr = grief:Toggle("Epilepsy", false, function(bool)
+	bl = bool;
+	local a = false;
+	while wait(0) do
+		if bl == false then
+			(game:GetService("ReplicatedStorage")).Sockets.Command:InvokeServer("!filter brightness 0", workspace.Blocks.Block);
+			break;
+		end;
+		if a == false then
+			a = true;
+			(game:GetService("ReplicatedStorage")).Sockets.Command:InvokeServer("!filter contrast -90000", workspace.Blocks.Block);
+			(game:GetService("ReplicatedStorage")).Sockets.Command:InvokeServer("!filter brightness -1", workspace.Blocks.Block);
+		elseif a == true then
+			a = false;
+			(game:GetService("ReplicatedStorage")).Sockets.Command:InvokeServer("!filter contrast 90000", workspace.Blocks.Block);
+			(game:GetService("ReplicatedStorage")).Sockets.Command:InvokeServer("!filter brightness 1", workspace.Blocks.Block);
+		end;
+	end;
+end);
+grief:Seperator();
+local tspam = grief:Button("Click here to ruin the lighting", function(bool)
+	(game:GetService("ReplicatedStorage")).Sockets.Command:InvokeServer("!filter contrast -90000", workspace.Blocks.Block);
+	wait(0);
+	(game:GetService("ReplicatedStorage")).Sockets.Command:InvokeServer("!filter saturation -1000", workspace.Blocks.Block);
+	wait(0);
+	(game:GetService("ReplicatedStorage")).Sockets.Command:InvokeServer("!filter tint 0 0 0", workspace.Blocks.Block);
+	wait(0);
+	(game:GetService("ReplicatedStorage")).Sockets.Command:InvokeServer("!fog 0 0", workspace.Blocks.Block);
+	wait(0);
+	(game:GetService("ReplicatedStorage")).Sockets.Command:InvokeServer("!fog color 255 0 0", workspace.Blocks.Block);
+	wait(0);
+	(game:GetService("ReplicatedStorage")).Sockets.Command:InvokeServer("!ambient 0 255 0", workspace.Blocks.Block);
+	wait(0);
+	(game:GetService("ReplicatedStorage")).Sockets.Command:InvokeServer("!outambient 0 0 255", workspace.Blocks.Block);
+	wait(0);
+	(game:GetService("ReplicatedStorage")).Sockets.Command:InvokeServer("!time 0", workspace.Blocks.Block);
+	wait(0);
+	(game:GetService("ReplicatedStorage")).Sockets.Command:InvokeServer("!brightness 0", workspace.Blocks.Block);
+	wait(0);
+	for i = 1, 10 do
+		wait();
+		wait();
+		(game:GetService("ReplicatedStorage")).Sockets.Command:InvokeServer("!dab me \n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n" .. _guiname .. "IS WINNING SKIDS!!!!!!!! MADE BY JAYFANCY", workspace.Blocks.Block);
+	end;
+end);
+local tspam = grief:Button("Click here to reset lighting", function(bool)
+	(game:GetService("ReplicatedStorage")).Sockets.Command:InvokeServer("!filter contrast default", workspace.Blocks.Block);
+	wait(0);
+	(game:GetService("ReplicatedStorage")).Sockets.Command:InvokeServer("!filter saturation default", workspace.Blocks.Block);
+	wait(0);
+	(game:GetService("ReplicatedStorage")).Sockets.Command:InvokeServer("!filter tint default", workspace.Blocks.Block);
+	wait(0);
+	(game:GetService("ReplicatedStorage")).Sockets.Command:InvokeServer("!fog 9000 9000", workspace.Blocks.Block);
+	wait(0);
+	(game:GetService("ReplicatedStorage")).Sockets.Command:InvokeServer("!fog color 0 0 0", workspace.Blocks.Block);
+	wait(0);
+	(game:GetService("ReplicatedStorage")).Sockets.Command:InvokeServer("!ambient 0 0 0", workspace.Blocks.Block);
+	wait(0);
+	(game:GetService("ReplicatedStorage")).Sockets.Command:InvokeServer("!outambient 0 0 0", workspace.Blocks.Block);
+	wait(0);
+	(game:GetService("ReplicatedStorage")).Sockets.Command:InvokeServer("!time 14", workspace.Blocks.Block);
+	wait(0);
+	(game:GetService("ReplicatedStorage")).Sockets.Command:InvokeServer("!brightness 2", workspace.Blocks.Block);
+end);
+grief:Seperator();
+grief:Button("Anti-logs (fill logs with nothing)", function(bool)
+	for i = 1, 25 do
+		wait();
+		wait();
+		(game:GetService("ReplicatedStorage")).Sockets.Command:InvokeServer("!dab me \n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n << 死の意味 >>", workspace.Blocks.Block);
+	end;
+end);
+grief:Seperator();
+local tspam = grief:Button("Click here to load a template (admin)", function(bool)
+	(game:GetService("ReplicatedStorage")).Sockets.World.LoadTemplate:FireServer("Plots");
+end);
+grief:Label("It's not logged!");
+local cmds = bserv:Channel("Commands");
+cmds:Label("Frame someone of doing a command (need at least builder)");
+local adoaskd = (game:GetService("Players")):GetChildren();
+local plrs = {};
+for _, v in ipairs(adoaskd) do
+	table.insert(plrs, v.Name);
+end;
+(game:GetService("Players")).PlayerRemoving:Connect(function(p)
+	table.remove(plrs, table.find(plrs, p.Name));
+end);
+(game:GetService("Players")).PlayerAdded:Connect(function(p)
+	table.insert(plrs, p.Name);
+end);
+local _pc1;
+local _pc2;
+local _pc3;
+local _drop = cmds:Dropdown("Person to frame", plrs, function(c)
+	_pc1 = c;
+	print(c);
+end);
+cmds:Label("Remember: write ONLY the command.");
+local _mtd = cmds:Textbox("Command you will do (!dab me, for example)", "Type here...", false, function(t)
+	_pc2 = t;
+	print(t);
+end);
+local _mtd2 = cmds:Textbox("Command the target will do (!kill, !tripper, !damager...)", "Type here...", false, function(t)
+	_pc3 = t;
+	print(t);
+end);
+local _bbc = false;
+local _aaa = cmds:Toggle("Is that a block-based command?", false, function(bool)
+	_bbc = bool;
+end);
+cmds:Label("If it's a block command, it will use pos.");
+cmds:Label("If not, you can add the subject like !kill all.");
+cmds:Label("If you use !kill all as a block command it would say");
+cmds:Label("something like [plr] ran '!kill all' at [pos], which is wrong.");
+cmds:Button("Frame this guy!", function()
+	define();
+	local s, e = pcall(function()
+		local _p = char.HumanoidRootPart.Position;
+		local x, y, z = math.round(_p.X), math.round(_p.Y), math.round(_p.Z);
+		local _if1 = _pc2 .. " \n " .. _pc1 .. " ran '" .. _pc3 .. "'";
+		local _if2 = _pc2 .. " \n " .. _pc1 .. " changed block with '" .. _pc3 .. "' at position (" .. x .. ", " .. y .. ", " .. z .. ")";
+		local _pt;
+		local _fs;
+		if _bbc == false then
+			_fs = _if1;
+		elseif _bbc == true then
+			_fs = _if2;
+		end;
+		local _args = {
+			[1] = tostring(_fs),
+			[2] = workspace.Blocks.Block
+		};
+		print(tostring(_fs));
+		(game:GetService("ReplicatedStorage")).Sockets.Command:InvokeServer(unpack(_args));
+	end);
+	if s then
+		print("yes");
+	else
+		print(e);
+	end;
+end);
+win:Server("Catalog Heaven", "");

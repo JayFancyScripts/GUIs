@@ -533,4 +533,3 @@ cmds:Button("Frame this guy!", function()
 		print(e);
 	end;
 end);
-win:Server("Catalog Heaven", "");

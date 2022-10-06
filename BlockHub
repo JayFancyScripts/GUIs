@@ -46,12 +46,15 @@ info:Label("Lib by dawid#7205, scripts by yours truly, JayFancy#2205.");
 local games = iserv:Channel("Game");
 games:Label("Game Name: " .. game.Name);
 games:Label("Game ID: " .. game.GameId);
+games:Label("Job ID: ".. game.JobId)
 games:Label("Place ID: " .. game.PlaceId);
 games:Label("Place Version: " .. game.PlaceVersion);
 games:Seperator();
 games:Button("Rejoin game", function()
 	define();
-	(game:GetService("TeleportService")):Teleport(game.PlaceId, plr);
+	local TPService = game:GetService("TeleportService")
+    syn.queue_on_teleport(loadstring(game:HttpGet("https://raw.githubusercontent.com/JayFancyScripts/GUIs/main/BlockHub"))())
+    TPService:TeleportToPlaceInstance(game.PlaceId, game.JobId)
 end);
 local playerServ = win:Server("Player", "");
 local mvmt = playerServ:Channel("Movement");

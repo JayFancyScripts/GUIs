@@ -53,7 +53,7 @@ games:Seperator();
 games:Button("Rejoin game", function()
 	define();
 	local TPService = game:GetService("TeleportService")
-    TPService:TeleportToPlaceInstance(game.PlaceId, game.JobId)
+    TPService:Teleport(game.PlaceId, plr)
 end);
 local playerServ = win:Server("Player", "");
 local mvmt = playerServ:Channel("Movement");

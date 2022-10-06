@@ -19,10 +19,6 @@ function define()
 		plr = game.Players.LocalPlayer;
 		char = game.Players.LocalPlayer.Character;
 		hum = game.Players.LocalPlayer.Character.Humanoid;
-		ows = hum.WalkSpeed;
-		ojp = hum.JumpPower;
-		ograv = workspace.Gravity;
-		obrgtns = (game:GetService("Lighting")).Brightness;
 		pl = (char:WaitForChild("HumanoidRootPart")):FindFirstChildOfClass("PointLight");
 		if not char.HumanoidRootPart:FindFirstChildOfClass("PointLight") then
 			pl = Instance.new("PointLight");
@@ -33,7 +29,7 @@ function define()
 			pl.Name = math.random(-1000, 1000);
 			pl.Enabled = false;
 		end;
-	until plr == game.Players.LocalPlayer and char == game.Players.LocalPlayer.Character and hum == game.Players.LocalPlayer.Character.Humanoid and ows == hum.WalkSpeed and ojp == hum.JumpPower and ograv == workspace.Gravity and obrgtns == (game:GetService("Lighting")).Brightness and pl == char.HumanoidRootPart:FindFirstChildOfClass("PointLight");
+	until plr == game.Players.LocalPlayer and char == game.Players.LocalPlayer.Character and hum == game.Players.LocalPlayer.Character.Humanoid and pl == char.HumanoidRootPart:FindFirstChildOfClass("PointLight");
 end;
 define();
 hum.HealthChanged:Connect(define);

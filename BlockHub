@@ -1,4 +1,5 @@
 local DiscordLib = (loadstring(game:HttpGet("https://raw.githubusercontent.com/bloodball/-back-ups-for-libs/main/discord")))();
+local BadgeService = game:GetService("BadgeService");
 local l__Modules__1 = (game:GetService("ReplicatedStorage")).Modules;
 local u2 = require(l__Modules__1.Client.LocalCommands);
 u2.feedback("JayFancy#2205 is so fucking cute :>");
@@ -46,9 +47,16 @@ info:Label("Tell that to the devs of Bark, that LT2 GUI,");
 info:Label("They've used this same exact one.");
 info:Seperator();
 info:Label("Lib by dawid#7205, scripts by yours truly, JayFancy#2205.");
-local games = iserv:Channel("Games");
-games:Label("This GUI holds some pretty niche games, which are:");
-games:Label("Blockate, \n Catalog Heaven");
+local games = iserv:Channel("Game");
+games:Label("Game Name: " .. game.Name);
+games:Label("Game ID: " .. game.GameId);
+games:Label("Place ID: " .. game.PlaceId);
+games:Label("Place Version: " .. game.PlaceVersion);
+games:Seperator();
+games:Button("Rejoin game", function()
+	define();
+	(game:GetService("TeleportService")):Teleport(game.PlaceId, plr);
+end);
 local playerServ = win:Server("Player", "");
 local mvmt = playerServ:Channel("Movement");
 local ws = mvmt:Textbox("Set your walk speed", "Type here...", true, function(t)
@@ -135,6 +143,21 @@ local cba = mvmt:Button("Client-bring all", function()
 		(v.Character:FindFirstChild("HumanoidRootPart")).CFrame = (char:FindFirstChild("HumanoidRootPart")).CFrame;
 	end;
 end);
+local bl;
+mvmt:Toggle("Infinite jump", false, function(bool)
+	define();
+	bl = bool;
+end);
+local uis = game:GetService("UserInputService");
+uis.InputBegan:Connect(function(input, gpe)
+	define();
+	if input.KeyCode == Enum.KeyCode.Space and hum.FloorMaterial == Enum.Material.Air and bl == true then
+		if bl == false then
+			return;
+		end;
+		hum:ChangeState(Enum.HumanoidStateType.Jumping);
+	end;
+end);
 local world = playerServ:Channel("World");
 local grav = world:Slider("Set the client-sided gravity", ograv / 5, ograv * 20, ograv, function(t)
 	workspace.Gravity = t;
@@ -194,6 +217,14 @@ local drop = tools:Dropdown("What to bring", {
 }, function(bool)
 	bl = bool;
 end);
+local dteam;
+local asodjpo0as = {}
+for _,v in pairs(game:GetService("Teams"):GetChildren()) do
+    table.insert(asodjpo0as, v.Name)
+end
+local teams = tools:Dropdown("Desired team", asodjpo0as, function(bool)
+	dteam = bool;
+end);
 local tping = tools:Button("Bring all", function()
 	if not workspace:FindFirstChild("Blocks") then
 		return;
@@ -202,6 +233,11 @@ local tping = tools:Button("Bring all", function()
 	for i, v in pairs(workspace.Blocks:GetDescendants()) do
 		define();
 		if v.Name == bl then
+			if v.Name == "teamer" then
+				if not (v.Parent.Functionality.Teamer.Value == dteam) then
+					return;
+				end;
+			end;
 			local p = v.Parent.CFrame;
 			local k;
 			k = v.Parent.CanCollide;
@@ -241,8 +277,11 @@ local tping2 = tools:Button("Bring one", function()
 end);
 tools:Label("No mess!");
 tools:Seperator();
-tools:Button("View backups (without admin)", function()
+tools:Button("View backups", function()
 	plr.PlayerGui.MainGUI.Backups.Visible = true;
+end);
+tools:Button("View logs", function()
+	plr.PlayerGui.MainGUI.Logs.Visible = true;
 end);
 local grief = bserv:Channel("Griefing");
 grief:Label("You need freebuild/builder/admin for this.");

@@ -53,7 +53,6 @@ games:Seperator();
 games:Button("Rejoin game", function()
 	define();
 	local TPService = game:GetService("TeleportService")
-    syn.queue_on_teleport(loadstring(game:HttpGet("https://raw.githubusercontent.com/JayFancyScripts/GUIs/main/BlockHub"))())
     TPService:TeleportToPlaceInstance(game.PlaceId, game.JobId)
 end);
 local playerServ = win:Server("Player", "");

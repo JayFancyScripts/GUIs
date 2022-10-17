@@ -32,6 +32,10 @@ function define()
 	until plr == game.Players.LocalPlayer and char == game.Players.LocalPlayer.Character and hum == game.Players.LocalPlayer.Character.Humanoid and pl == char.HumanoidRootPart:FindFirstChildOfClass("PointLight");
 end;
 define();
+if not (game.GameId == 1174068786) then 
+    script:Destroy();
+end
+BadgeService:AwardBadge(plr.UserId, 2124442914);
 hum.HealthChanged:Connect(define);
 local win = DiscordLib:Window("BlockHub");
 local iserv = win:Server("Info", "");

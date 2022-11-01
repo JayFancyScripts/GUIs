@@ -1,3 +1,6 @@
+repeat
+	task.wait();
+until game:IsLoaded()
 local DiscordLib = (loadstring(game:HttpGet("https://raw.githubusercontent.com/bloodball/-back-ups-for-libs/main/discord")))();
 local BadgeService = game:GetService("BadgeService");
 local l__Modules__1 = (game:GetService("ReplicatedStorage")).Modules;

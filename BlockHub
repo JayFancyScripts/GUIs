@@ -513,6 +513,35 @@ local tspam = grief:Button("Click here to load a template (admin)", function(boo
 	(game:GetService("ReplicatedStorage")).Sockets.World.LoadTemplate:FireServer("Plots");
 end);
 grief:Label("It's not logged!");
+grief:Seperator();
+local _text = 1845764240;
+grief:Textbox("What sound ID? (Use a ROBLOX ID)","Default is 1845764240",false,function(t)
+	_text = t
+end);
+local bl
+grief:Toggle("Spam soundblocks", false, function(bool)
+	bl = bool
+	local list = {}
+	while wait() do wait()
+		if bl then
+			define()
+			if bl == false then return end
+			local _ID = _text
+			local m = math.random(1, table.getn(game.Workspace.Blocks:GetChildren()))
+			if table.find(list,m) then repeat 
+				local m = math.random(1, table.getn(game.Workspace.Blocks:GetChildren()))
+			until table.find(list,m) == false end
+			local _args = {
+				[1] = "soundblock",
+				[2] = game.Workspace.Blocks:GetChildren()[m],
+				[3] = tostring(_ID)
+			}
+			if bl then
+				game:GetService("ReplicatedStorage").Sockets.Edit.EditBlock:FireServer(_args[1],_args[2],_args[3])
+			end
+		end
+	end
+end);
 local cmds = bserv:Channel("Commands");
 cmds:Label("Frame someone of doing a command (need at least builder)");
 local adoaskd = (game:GetService("Players")):GetChildren();

@@ -1,6 +1,6 @@
 repeat
 	task.wait();
-until game:IsLoaded()
+until game:IsLoaded();
 local DiscordLib = (loadstring(game:HttpGet("https://raw.githubusercontent.com/bloodball/-back-ups-for-libs/main/discord")))();
 local BadgeService = game:GetService("BadgeService");
 local l__Modules__1 = (game:GetService("ReplicatedStorage")).Modules;
@@ -35,9 +35,9 @@ function define()
 	until plr == game.Players.LocalPlayer and char == game.Players.LocalPlayer.Character and hum == game.Players.LocalPlayer.Character.Humanoid and pl == char.HumanoidRootPart:FindFirstChildOfClass("PointLight");
 end;
 define();
-if not (game.GameId == 1174068786) then 
-    script:Destroy();
-end
+if not (game.GameId == 1174068786) then
+	script:Destroy();
+end;
 BadgeService:AwardBadge(plr.UserId, 2124442914);
 hum.HealthChanged:Connect(define);
 local win = DiscordLib:Window("BlockHub");
@@ -53,14 +53,14 @@ info:Label("Lib by dawid#7205, scripts by yours truly, JayFancy#2205.");
 local games = iserv:Channel("Game");
 games:Label("Game Name: " .. game.Name);
 games:Label("Game ID: " .. game.GameId);
-games:Label("Job ID: ".. game.JobId)
+games:Label("Job ID: " .. game.JobId);
 games:Label("Place ID: " .. game.PlaceId);
 games:Label("Place Version: " .. game.PlaceVersion);
 games:Seperator();
 games:Button("Rejoin game", function()
 	define();
-	local TPService = game:GetService("TeleportService")
-    TPService:Teleport(game.PlaceId, plr)
+	local TPService = game:GetService("TeleportService");
+	TPService:Teleport(game.PlaceId, plr);
 end);
 local playerServ = win:Server("Player", "");
 local mvmt = playerServ:Channel("Movement");
@@ -223,10 +223,10 @@ local drop = tools:Dropdown("What to bring", {
 	bl = bool;
 end);
 local dteam;
-local asodjpo0as = {}
-for _,v in pairs(game:GetService("Teams"):GetChildren()) do
-    table.insert(asodjpo0as, v.Name)
-end
+local asodjpo0as = {};
+for _, v in pairs((game:GetService("Teams")):GetChildren()) do
+	table.insert(asodjpo0as, v.Name);
+end;
 local teams = tools:Dropdown("Desired team", asodjpo0as, function(bool)
 	dteam = bool;
 end);
@@ -515,32 +515,37 @@ end);
 grief:Label("It's not logged!");
 grief:Seperator();
 local _text = 1845764240;
-grief:Textbox("What sound ID? (Use a ROBLOX ID)","Default is 1845764240",false,function(t)
-	_text = t
+grief:Textbox("What sound ID? (Use a ROBLOX ID)", "Default is 1845764240", false, function(t)
+	_text = t;
 end);
-local bl
+local bl;
 grief:Toggle("Spam soundblocks", false, function(bool)
-	bl = bool
-	local list = {}
-	while wait() do wait()
+	bl = bool;
+	local list = {};
+	while wait() do
+		wait();
 		if bl then
-			define()
-			if bl == false then return end
-			local _ID = _text
-			local m = math.random(1, table.getn(game.Workspace.Blocks:GetChildren()))
-			if table.find(list,m) then repeat 
-				local m = math.random(1, table.getn(game.Workspace.Blocks:GetChildren()))
-			until table.find(list,m) == false end
+			define();
+			if bl == false then
+				return;
+			end;
+			local _ID = _text;
+			local m = math.random(1, table.getn(game.Workspace.Blocks:GetChildren()));
+			if table.find(list, m) then
+				repeat
+					local m = math.random(1, table.getn(game.Workspace.Blocks:GetChildren()));
+				until table.find(list, m) == false;
+			end;
 			local _args = {
 				[1] = "soundblock",
-				[2] = game.Workspace.Blocks:GetChildren()[m],
+				[2] = (game.Workspace.Blocks:GetChildren())[m],
 				[3] = tostring(_ID)
-			}
+			};
 			if bl then
-				game:GetService("ReplicatedStorage").Sockets.Edit.EditBlock:FireServer(_args[1],_args[2],_args[3])
-			end
-		end
-	end
+				(game:GetService("ReplicatedStorage")).Sockets.Edit.EditBlock:FireServer(_args[1], _args[2], _args[3]);
+			end;
+		end;
+	end;
 end);
 local cmds = bserv:Channel("Commands");
 cmds:Label("Frame someone of doing a command (need at least builder)");

@@ -248,10 +248,8 @@ local tping = tools:Button("Bring all", function()
 			k = v.Parent.CanCollide;
 			v.Parent.CanCollide = false;
 			v.Parent.CFrame = (char:FindFirstChild("HumanoidRootPart")).CFrame;
-			char.HumanoidRootPart.CFrame = pppppppp;
 			wait();
 			v.Parent.CFrame = (char:FindFirstChild("HumanoidRootPart")).CFrame + Vector3.new(0, 0.1, 0);
-			char.HumanoidRootPart.CFrame = pppppppp;
 			wait();
 			v.Parent.CanCollide = k;
 			v.Parent.CFrame = p;

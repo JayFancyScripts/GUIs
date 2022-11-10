@@ -149,6 +149,7 @@ local cba = mvmt:Button("Client-bring all", function()
 		(v.Character:FindFirstChild("HumanoidRootPart")).CFrame = (char:FindFirstChild("HumanoidRootPart")).CFrame;
 	end;
 end);
+mvmt:Seperator();
 local bl;
 mvmt:Toggle("Infinite jump", false, function(bool)
 	define();

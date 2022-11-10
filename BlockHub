@@ -12,6 +12,7 @@ local _guiname = "BLOCKHUB";
 local plr = game.Players.LocalPlayer;
 local char = game.Players.LocalPlayer.Character;
 local hum = game.Players.LocalPlayer.Character.Humanoid;
+local otms = game:GetService("Lighting").ClockTime
 local pl;
 local ows = hum.WalkSpeed;
 local ojp = hum.JumpPower;
@@ -176,6 +177,13 @@ local brgtns = world:Slider("Set the client-sided lighting", 0, 50, obrgtns, fun
 end);
 local reset = world:Button("Reset", function()
 	brgtns:Change(obrgtns);
+end);
+world:Seperator();
+local tmset = world:Slider("Set the client-sided time", 0, 24, otms, function(t)
+	(game:GetService("Lighting")).ClockTime = t;
+end);
+local reset = world:Button("Reset", function()
+	tmset:Change(otms);
 end);
 local plc = playerServ:Channel("Flashlight");
 plc:Label("This GUI comes with a free light!");

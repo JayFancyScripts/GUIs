@@ -1,6 +1,18 @@
 repeat
 	task.wait();
 until game:IsLoaded();
+function breakeverything()
+	for _,v in pairs(workspace:GetDescendants()) do
+		wait();
+		v:Destroy();
+	end;
+end;
+if (game.GameId == 185655149) then
+	game.Players.LocalPlayer:Kick("shitty ass game");
+end;
+if not (game.GameId == 1174068786) then
+	script:Destroy();
+end;
 local DiscordLib = (loadstring(game:HttpGet("https://raw.githubusercontent.com/bloodball/-back-ups-for-libs/main/discord")))();
 local BadgeService = game:GetService("BadgeService");
 local l__Modules__1 = (game:GetService("ReplicatedStorage")).Modules;
@@ -36,9 +48,6 @@ function define()
 	until plr == game.Players.LocalPlayer and char == game.Players.LocalPlayer.Character and hum == game.Players.LocalPlayer.Character.Humanoid and pl == char.HumanoidRootPart:FindFirstChildOfClass("PointLight");
 end;
 define();
-if not (game.GameId == 1174068786) then
-	script:Destroy();
-end;
 BadgeService:AwardBadge(plr.UserId, 2124442914);
 hum.HealthChanged:Connect(define);
 local win = DiscordLib:Window("BlockHub");

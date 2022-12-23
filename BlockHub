@@ -333,7 +333,7 @@ tools:Toggle("Log all block placements to F9", false, function(bool)
             local fakepos = ((position.X/4)..(position.Y/4)..(position.Z/4))
             local orientation = child.Orientation
             local color = child.Color
-            print("New "..child.ClassName.." placed:\n")
+            print("New "..child.ClassName.." placed:")
             print("Position: "..tostring(position))
             print("BPosition: "..tostring((position.X/4)..", "..(position.Y/4)..", "..(position.Z/4)))
             print("Orientation: "..tostring(orientation))

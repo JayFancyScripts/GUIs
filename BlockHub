@@ -242,11 +242,28 @@ local drop = tools:Dropdown("What to bring", {
 end);
 local dteam;
 local asodjpo0as = {};
-for _, v in pairs((game:GetService("Teams")):GetChildren()) do
+for _,v in pairs((game:GetService("Teams")):GetChildren()) do
+    if not (v:IsA("Team")) then return end
 	table.insert(asodjpo0as, v.Name);
 end;
 local teams = tools:Dropdown("Desired team", asodjpo0as, function(bool)
 	dteam = bool;
+end);
+game:GetService("Teams").ChildAdded:Connect(function(team)
+    if not (team:IsA("Team")) then return end
+    table.insert(asodjpo0as, team.Name);
+    teams:Add(team.Name)
+end);
+game:GetService("Teams").ChildRemoved:Connect(function(team)
+    if not (team:IsA("Team")) then return end
+    local tnum = table.find(asodjpo0as, team.Name);
+    if tnum then
+        table.remove(asodjpo0as, tnum); -- used to throw an error cuz it needs the instance number, not name
+    end;
+    teams:Clear() -- for some reason the lib doesn't have a 'remove' cmd for dropdowns
+    for _,c in pairs(asodjpo0as) do
+        teams:Add(c)
+    end;
 end);
 local tping = tools:Button("Bring all", function()
 	if not workspace:FindFirstChild("Blocks") then
@@ -305,6 +322,27 @@ tools:Button("View backups", function()
 end);
 tools:Button("View logs", function()
 	plr.PlayerGui.MainGUI.Logs.Visible = true;
+end);
+tools:Seperator();
+tools:Toggle("Log all block placements to F9", false, function(bool)
+    local blocks = game:GetService("Workspace").Blocks;
+    blocks.ChildAdded:Connect(function(child)
+        if not bool then return end
+        if (child:IsA("SpawnLocation") or child:IsA("MeshPart") or child:IsA("Part")) then
+            local position = child.Position
+            local fakepos = ((position.X/4)..(position.Y/4)..(position.Z/4))
+            local orientation = child.Orientation
+            local color = child.Color
+            print("New "..child.ClassName.." placed:\n")
+            print("Position: "..tostring(position))
+            print("BPosition: "..tostring((position.X/4)..", "..(position.Y/4)..", "..(position.Z/4)))
+            print("Orientation: "..tostring(orientation))
+            print("Color3: "..tostring(color).." ("..tostring(child.BrickColor)..")")
+            print("CanCollide: "..tostring(child.CanCollide))
+            print("Transparency: "..tostring(child.Transparency))
+            print("Anchored: "..tostring(child.Anchored).."\n")
+        end;
+    end);
 end);
 local grief = bserv:Channel("Griefing");
 grief:Label("You need freebuild/builder/admin for this.");
